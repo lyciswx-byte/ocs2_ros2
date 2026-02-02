@@ -39,7 +39,8 @@ namespace ocs2::legged_robot {
         rclcpp::Node::SharedPtr node, scalar_t maxUpdateFrequency)
         : LeggedRobotVisualizer(std::move(interface), std::move(model_info),
                                 endEffectorKinematics, node,
-                                maxUpdateFrequency) {
+                                maxUpdateFrequency),
+                                nodePtr_(std::move(node)) {
     }
 
     void RaiSimVisualizer::update(const SystemObservation &observation,
@@ -80,7 +81,7 @@ namespace ocs2::legged_robot {
             promise.set_value(msg);
         };
 
-        auto subscription = node_->create_subscription<grid_map_msgs::msg::GridMap>(
+        auto subscription = nodePtr_->create_subscription<grid_map_msgs::msg::GridMap>(
             "raisim_heightmap", 10, callback);
 
         if (future.wait_for(timeout) == std::future_status::timeout) {

@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <raisim/object/terrain/HeightMap.hpp>
 
 namespace ocs2::legged_robot {
-    class RaiSimVisualizer final : public LeggedRobotVisualizer {
+    class RaiSimVisualizer : public LeggedRobotVisualizer {
     public:
         RaiSimVisualizer(
             PinocchioInterface interface,
@@ -51,6 +51,7 @@ namespace ocs2::legged_robot {
         void updateTerrain(std::chrono::seconds timeout = std::chrono::seconds(5));
 
     private:
+        rclcpp::Node::SharedPtr nodePtr_;
         std::unique_ptr<raisim::HeightMap> terrainPtr_;
     };
 } // namespace ocs2::legged_robot
